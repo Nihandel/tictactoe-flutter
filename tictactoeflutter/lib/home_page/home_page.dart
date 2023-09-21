@@ -12,6 +12,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late List<TTTButtonState> states;
   late TTTButtonState turn;
+  int remainingTurns=9;
   @override
   void initState() {
     // TODO: implement initState
@@ -101,6 +102,14 @@ class _HomePageState extends State<HomePage> {
             context: context,
             builder: (context) => AlertDialog(
               content: Text("Winner is: ${result.toString()}"),
+            ),
+          );
+        }
+        if(--remainingTurns<=0){
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              content: Text("Draw"),
             ),
           );
         }
