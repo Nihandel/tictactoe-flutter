@@ -76,19 +76,6 @@ class _HomePageState extends State<HomePage> {
                   )
                   .toList()),
         ),
-        // GridView(
-        //   physics: NeverScrollableScrollPhysics(),
-        //   shrinkWrap: true,
-        //   gridDelegate:
-        //       SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-        //   children: states
-        //       .mapIndexed<Widget>(
-        //         (index, element) => TTTButton(
-        //             onClick: () => onButtonClick(index),
-        //             state: states[index]),
-        //       )
-        //       .toList(),
-        // ),
       ],
     );
   }
@@ -113,6 +100,8 @@ class _HomePageState extends State<HomePage> {
           );
         }
       });
+
+      
   TTTButtonState? checkWinner() {
     List<List<int>> victoryConditions = [
       [0, 1, 2],
