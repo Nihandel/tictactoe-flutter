@@ -104,8 +104,7 @@ class _HomePageState extends State<HomePage> {
               content: Text("Winner is: ${result.toString()}"),
             ),
           );
-        }
-        if(--remainingTurns<=0){
+        }else if(--remainingTurns<=0){
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
