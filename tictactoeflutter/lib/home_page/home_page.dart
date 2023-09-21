@@ -31,7 +31,12 @@ class _HomePageState extends State<HomePage> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Center(child: Text("header")),
+        ListTile(
+            title: Text("Turn Of: ${turn.toString()}"),
+            trailing: IconButton(
+              icon: Icon(Icons.replay),
+              onPressed: () => Navigator.of(context).pushReplacementNamed("/"),
+            )),
         Expanded(
           child: Table(
             border: TableBorder.all(color: Colors.red, width: 1),
@@ -54,35 +59,40 @@ class _HomePageState extends State<HomePage> {
       ],
     );
   }
-  void onButtonClick(int row,int col) => setState(() {
-    states[row][col]=turn;
-    turn = turn == TTTButtonState.X? TTTButtonState.O:TTTButtonState.X;
-    if(checkWinner()){
-      showDialog(context: context, builder:(context) => AlertDialog(content: Text("Winner"),),);
-    }
-  });
-  bool checkWinner(){
-    List<List<int>> victoryConditions=[
-      [0,1,2],
-      [3,4,5],
-      [6,7,8],
-      [0,3,6],
-      [1,4,7],
-      [2,5,8],
-      [0,4,8],
-      [2,4,6]
+
+  void onButtonClick(int row, int col) => setState(() {
+        states[row][col] = turn;
+        turn = turn == TTTButtonState.X ? TTTButtonState.O : TTTButtonState.X;
+        var result = checkWinner();
+        if (null != result) {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              content: Text("Winner is: ${result.toString()}"),
+            ),
+          );
+        }
+      });
+  TTTButtonState? checkWinner() {
+    List<List<int>> victoryConditions = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6]
     ];
-    for(int i=0;i<victoryConditions.length;i++){
+    for (int i = 0; i < victoryConditions.length; i++) {
       var victory = victoryConditions[i];
-      TTTButtonState a = states[victory[0]~/3][(victory[0]%3)];
-      TTTButtonState b = states[victory[1]~/3][(victory[1]%3)];
-      TTTButtonState c = states[victory[2]~/3][(victory[2]%3)];
-      if(a!=TTTButtonState.clear && a==b && b==c) 
-      {
-        return true;
+      TTTButtonState a = states[victory[0] ~/ 3][(victory[0] % 3)];
+      TTTButtonState b = states[victory[1] ~/ 3][(victory[1] % 3)];
+      TTTButtonState c = states[victory[2] ~/ 3][(victory[2] % 3)];
+      if (a != TTTButtonState.clear && a == b && b == c) {
+        return a;
       }
-      
     }
-    return false;
+    return null;
   }
 }
