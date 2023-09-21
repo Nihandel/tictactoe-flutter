@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
       // mainAxisSize: MainAxisSize.min,
       children: [
         ListTile(
-          title: Text("Turn Of: ${turn.toString()}"),
+          title: Text("Turn Of: ${turn.toString().split(".").last}"),
           trailing: IconButton(
             icon: Icon(Icons.replay),
             onPressed: () => Navigator.of(context).pushReplacementNamed("/"),
@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage> {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              content: Text("Winner is: ${result.toString()}"),
+              content: Text("Winner is: ${result.toString().split(".").last}"),
             ),
           );
         }else if(--remainingTurns<=0){
