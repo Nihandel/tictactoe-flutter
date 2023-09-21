@@ -10,7 +10,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late List<List<TTTButtonState>> states;
+  late List<TTTButtonState> states;
   late TTTButtonState turn;
   @override
   void initState() {
@@ -18,50 +18,82 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     turn = TTTButtonState.X;
     states = List.generate(
-        3,
-        (index) => List<TTTButtonState>.generate(
-              3,
-              (index) => TTTButtonState.clear,
-            ));
+      9,
+      (index) => TTTButtonState.clear,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     var mediaquery = MediaQuery.of(context).size;
     return Column(
-      mainAxisSize: MainAxisSize.min,
+      // mainAxisSize: MainAxisSize.min,
       children: [
         ListTile(
-            title: Text("Turn Of: ${turn.toString()}"),
-            trailing: IconButton(
-              icon: Icon(Icons.replay),
-              onPressed: () => Navigator.of(context).pushReplacementNamed("/"),
-            )),
-        Expanded(
-          child: Table(
-            border: TableBorder.all(color: Colors.red, width: 1),
-            children: states
-                .mapIndexed(
-                  (rowIndex, row) => TableRow(
-                    children: row
-                        .mapIndexed(
-                          (index, state) => TTTButton(
-                            onClick: () => onButtonClick(rowIndex, index),
-                            state: state,
-                          ),
-                        )
-                        .toList(),
-                  ),
-                )
-                .toList(),
+          title: Text("Turn Of: ${turn.toString()}"),
+          trailing: IconButton(
+            icon: Icon(Icons.replay),
+            onPressed: () => Navigator.of(context).pushReplacementNamed("/"),
           ),
         ),
+        Expanded(
+          child: Row(
+              children: states
+                  .sublist(0, 3)
+                  .mapIndexed(
+                    (index, element) => Expanded(
+                      child: TTTButton(
+                          onClick: () => onButtonClick(index),
+                          state: states[index]),
+                    ),
+                  )
+                  .toList()),
+        ),
+        Expanded(
+          child: Row(
+              children: states
+                  .sublist(3, 6)
+                  .mapIndexed(
+                    (index, element) => Expanded(
+                      child: TTTButton(
+                          onClick: () => onButtonClick(index + 3),
+                          state: states[index]),
+                    ),
+                  )
+                  .toList()),
+        ),
+        Expanded(
+          child: Row(
+              children: states
+                  .sublist(6, 9)
+                  .mapIndexed(
+                    (index, element) => Expanded(
+                      child: TTTButton(
+                          onClick: () => onButtonClick(index + 6),
+                          state: states[index]),
+                    ),
+                  )
+                  .toList()),
+        ),
+        // GridView(
+        //   physics: NeverScrollableScrollPhysics(),
+        //   shrinkWrap: true,
+        //   gridDelegate:
+        //       SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+        //   children: states
+        //       .mapIndexed<Widget>(
+        //         (index, element) => TTTButton(
+        //             onClick: () => onButtonClick(index),
+        //             state: states[index]),
+        //       )
+        //       .toList(),
+        // ),
       ],
     );
   }
 
-  void onButtonClick(int row, int col) => setState(() {
-        states[row][col] = turn;
+  void onButtonClick(int index) => setState(() {
+        states[index] = turn;
         turn = turn == TTTButtonState.X ? TTTButtonState.O : TTTButtonState.X;
         var result = checkWinner();
         if (null != result) {
@@ -86,9 +118,9 @@ class _HomePageState extends State<HomePage> {
     ];
     for (int i = 0; i < victoryConditions.length; i++) {
       var victory = victoryConditions[i];
-      TTTButtonState a = states[victory[0] ~/ 3][(victory[0] % 3)];
-      TTTButtonState b = states[victory[1] ~/ 3][(victory[1] % 3)];
-      TTTButtonState c = states[victory[2] ~/ 3][(victory[2] % 3)];
+      TTTButtonState a = states[victory[0]];
+      TTTButtonState b = states[victory[1]];
+      TTTButtonState c = states[victory[2]];
       if (a != TTTButtonState.clear && a == b && b == c) {
         return a;
       }
