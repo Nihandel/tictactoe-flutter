@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
                     (index, element) => Expanded(
                       child: TTTButton(
                           onClick: () => onButtonClick(index + 3),
-                          state: states[index]),
+                          state: states[index+3]),
                     ),
                   )
                   .toList()),
@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                     (index, element) => Expanded(
                       child: TTTButton(
                           onClick: () => onButtonClick(index + 6),
-                          state: states[index]),
+                          state: states[index+6]),
                     ),
                   )
                   .toList()),

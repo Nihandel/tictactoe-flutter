@@ -21,6 +21,6 @@ class TTTButton extends StatelessWidget {
       default:
         child = Container();
     }
-    return IconButton(onPressed: state == TTTButtonState.clear? onClick: null, icon: child);
+    return Card(child: IconButton(onPressed: state == TTTButtonState.clear? onClick: null, icon: child));
   }
 }
